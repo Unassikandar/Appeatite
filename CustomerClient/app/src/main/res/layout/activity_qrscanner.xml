@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.varvet.barcodereadersample.QRScanner">
 
@@ -32,3 +33,32 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.7"/>
 </android.support.constraint.ConstraintLayout>
+=======
+    tools:context=".QRScanner">
+
+    <Button
+        android:id="@+id/btn_detect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:text="DETECT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.wonderkiln.camerakit.CameraView
+        android:id="@+id/cameraview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_detect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></com.wonderkiln.camerakit.CameraView>
+
+</android.support.constraint.ConstraintLayout>
+>>>>>>> 58de76dd5998922dcb0e5b3777765f6bccefb38f
