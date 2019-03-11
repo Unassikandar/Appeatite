@@ -32,7 +32,7 @@ class QRScanner : AppCompatActivity() {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
-                    val p = barcode.cornerPoints
+                    //val p = barcode.cornerPoints
                     mResultTextView.text = barcode.displayValue
                 } else
                     mResultTextView.setText(R.string.no_barcode_captured)

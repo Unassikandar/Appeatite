@@ -3,6 +3,8 @@ package com.example.customerclient.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.customerclient.R;
+
 public class Homescreen extends AppCompatActivity {
 
     @Override
