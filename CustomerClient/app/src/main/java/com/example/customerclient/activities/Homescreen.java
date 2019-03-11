@@ -1,4 +1,4 @@
-package com.example.customerclient;
+package com.example.customerclient.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
