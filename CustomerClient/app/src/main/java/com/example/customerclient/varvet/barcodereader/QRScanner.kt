@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import com.example.customerclient.R
-import com.example.customerclient.varvet.barcodereadersample.barcode.BarcodeCaptureActivity
+import com.example.customerclient.varvet.barcodereader.barcode.BarcodeCaptureActivity
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
 

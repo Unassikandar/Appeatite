@@ -16,7 +16,7 @@
         <activity android:name=".activities.SignUp" />
         <activity android:name="com.varvet.barcodereadersample.QRScanner"/>
         <activity
-            android:name=".varvet.barcodereadersample.barcode.BarcodeCaptureActivity"
+            android:name=".varvet.barcodereader.barcode.BarcodeCaptureActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".activities.MainActivity">
             <intent-filter>
