@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.customerclient.R;
@@ -22,6 +23,10 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String key = getIntent().getStringExtra("tableKey");
+        Log.d("tablekey", key);
+
         setContentView(R.layout.activity_homescreen);
 
         Toolbar toolbar = findViewById(R.id.toolbar);

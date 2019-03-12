@@ -36,6 +36,7 @@ class QRScanner : AppCompatActivity() {
                     //val p = barcode.cornerPoints
                     mResultTextView.text = barcode.displayValue
                     val intent = Intent(this, HomescreenActivity::class.java)
+                    intent.putExtra("tableKey", barcode.rawValue);
                     startActivity(intent)
                 } else
                     mResultTextView.setText(R.string.no_barcode_captured)
