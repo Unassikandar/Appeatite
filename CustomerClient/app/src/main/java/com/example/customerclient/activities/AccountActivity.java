@@ -36,7 +36,6 @@ public class AccountActivity extends AppCompatActivity {
     ProgressBar progressBar;
     String profileImageUrl;
     FirebaseAuth mAuth;
-    //
     UploadTask uploadTask;
 
     @Override
