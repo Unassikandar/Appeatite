@@ -23,4 +23,19 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Strings related for settings -->
+    <string name="Settings">Settings</string>
+    <string name="Units">Units</string>
+    <string name="FoodEnergy">Food Energy</string>
+    <string name="TextSize">Text Size</string>
+    <string name="ScreenMode">Screen Mode</string>
+    <string name="Light">Light</string>
+    <string name="Dark">Dark</string>
+    <string name="Metrics">Metrics</string>
+    <string name="Imperial">Imperial</string>
+    <string name="Calories">Calories</string>
+    <string name="Joules">Joules</string>
+    <string name="Small">Small</string>
+    <string name="Large">Large</string>
+    <string name="Apply">Apply</string>
 </resources>
