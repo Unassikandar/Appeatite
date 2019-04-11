@@ -2,7 +2,6 @@ package com.example.customerclient.activities;
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -11,32 +10,36 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.example.customerclient.Interfaces.ServerApi;
+import com.example.customerclient.Model.Restaurant;
 import com.example.customerclient.R;
 import com.example.customerclient.fragments.AccountFragment;
 import com.example.customerclient.fragments.MenuFragment;
 import com.example.customerclient.fragments.SettingsFragment;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomescreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-    /******/
-    private static String key;
+    private static String tableId;
     private static String restId;
     private FirebaseFirestore db;
-    /******/
+
+    private ServerApi serverApi;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        key = getIntent().getStringExtra("tableKey");
+        tableId = getIntent().getStringExtra("tableKey");
 
         setContentView(R.layout.activity_homescreen);
 
@@ -52,30 +55,15 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        Log.d("2222", "blah");
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://us-central1-appeatite-3b562.cloudfunctions.net/api/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        db = FirebaseFirestore.getInstance();
-        db.collection("tables").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(!queryDocumentSnapshots.isEmpty()){
-                            List<DocumentSnapshot> tablelist = queryDocumentSnapshots.getDocuments();
-                            for(DocumentSnapshot d : tablelist){
-                                Map<String, Object> t= d.getData();
-                                Log.d("2222", t.toString());
-                                if(d.getId().equals(key)){
-                                    restId = t.get("restaurantId").toString();
-                                    Log.d("222", restId);
-                                    break;
-                                }
-                            }
-                        }
-                        else {
-                            Log.d("doc snapshots are empty", restId);
-                        }
-                    }
-                });
+        serverApi = retrofit.create(ServerApi.class);
+
+        getRestaurantId();
+
 
 //        if(savedInstanceState == null) {
 //            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MenuFragment()).commit();
@@ -100,7 +88,6 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
                 break;
         }
-
         return true;
     }
 
@@ -113,8 +100,29 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    public static String getKey(){
-        return key;
+    private void getRestaurantId(){
+        Call<Restaurant> call = serverApi.getRestaurant(tableId);
+        call.enqueue(new Callback<Restaurant>() {
+            @Override
+            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+                if(!response.isSuccessful()){
+                    Toast.makeText(HomescreenActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Restaurant restaurant = response.body();
+                restId = restaurant.getRestaurantId();
+                Toast.makeText(HomescreenActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<Restaurant> call, Throwable t) {
+                Log.d("OnFailure", t.getMessage());
+            }
+        });
+    }
+
+    public static String getTableId(){
+        return tableId;
     }
 
     public static String getRestId(){
