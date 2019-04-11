@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.customerclient.R
 import com.example.customerclient.activities.HomescreenActivity
+import com.example.customerclient.testing_stuff.MenuActivity
 import com.example.customerclient.varvet.barcodereader.barcode.BarcodeCaptureActivity
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
@@ -35,7 +36,8 @@ class QRScanner : AppCompatActivity() {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)
                     //val p = barcode.cornerPoints
                     mResultTextView.text = barcode.displayValue
-                    val intent = Intent(this, HomescreenActivity::class.java)
+//                    val intent = Intent(this, HomescreenActivity::class.java)
+                    val intent = Intent(this, MenuActivity::class.java)
                     intent.putExtra("tableKey", barcode.rawValue);
                     startActivity(intent)
                 } else
