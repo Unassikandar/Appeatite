@@ -16,7 +16,7 @@
  * This file and all BarcodeXXX and CameraXXX files in this project edited by
  * Daniell Algar (included due to copyright reason)
  */
-package com.example.customerclient.varvet.barcodereadersample.barcode;
+package com.example.customerclient.varvet.barcodereader.barcode;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -38,8 +38,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
-import com.example.customerclient.varvet.barcodereadersample.camera.CameraSource;
-import com.example.customerclient.varvet.barcodereadersample.camera.CameraSourcePreview;
+import com.example.customerclient.varvet.barcodereader.camera.CameraSource;
+import com.example.customerclient.varvet.barcodereader.camera.CameraSourcePreview;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;

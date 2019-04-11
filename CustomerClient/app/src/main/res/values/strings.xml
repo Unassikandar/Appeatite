@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">Customer Client</string>
+
+    <!-- String related to the navigation drawer -->
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+
     <!-- Strings related to QRScanner-->
     <string name="scan_barcode_button">Scan barcode</string>
     <string name="no_barcode_captured">No barcode captured</string>
@@ -10,4 +16,26 @@
     <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
     <string name="no_camera_permission">This application cannot run because it does not have the camera permission.  The application will now exit.</string>
     <string name="low_storage_error">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="title_activity_homescreen">Homescreen</string>
+
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings related for settings -->
+    <string name="Settings">Settings</string>
+    <string name="Units">Units</string>
+    <string name="FoodEnergy">Food Energy</string>
+    <string name="TextSize">Text Size</string>
+    <string name="ScreenMode">Screen Mode</string>
+    <string name="Light">Light</string>
+    <string name="Dark">Dark</string>
+    <string name="Metrics">Metrics</string>
+    <string name="Imperial">Imperial</string>
+    <string name="Calories">Calories</string>
+    <string name="Joules">Joules</string>
+    <string name="Small">Small</string>
+    <string name="Large">Large</string>
+    <string name="Apply">Apply</string>
 </resources>
