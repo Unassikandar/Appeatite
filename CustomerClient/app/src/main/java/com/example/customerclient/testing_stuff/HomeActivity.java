@@ -1,6 +1,7 @@
 package com.example.customerclient.testing_stuff;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -11,30 +12,39 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.customerclient.Interfaces.ServerApi;
+import com.example.customerclient.ServerComms.ServerApi;
 import com.example.customerclient.Model.Restaurant;
 import com.example.customerclient.R;
-import com.example.customerclient.activities.HomescreenActivity;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.customerclient.ServerComms.CloudFunctions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GetTokenResult;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private TextView textView;
     private static String tableId, restId;
     private ServerApi serverApi;
+    private String userIdToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        textView = findViewById(R.id.rest_name_home);
+
+        Log.d("tablee", CloudFunctions.getInstance().getTableId());
 
         /*---------NAVIGATION DRAWER ------------*/
         Toolbar toolbar = findViewById(R.id.toolbar_home);
@@ -47,16 +57,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         /*---------------------------------------*/
 
-        tableId = getIntent().getStringExtra("tableKey");
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://us-central1-appeatite-3b562.cloudfunctions.net/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        serverApi = retrofit.create(ServerApi.class);
-
-        getRestaurantId();
+////        tableId = getIntent().getStringExtra("tableKey");
+//        /*************************/
+//        CloudFunctions.getInstance().initializeValues();
+//        tableId = CloudFunctions.getInstance().getTableId();
+//        restId = CloudFunctions.getInstance().getRestId();
+//        /*************************/
+////
+////        new FetchingTask().execute();
+//
+//        Log.d("tablee", tableId+"\n"+restId);
+//
+//        textView.setText(restId);
+        new FetchingTask().execute();
 
 
     }
@@ -68,6 +81,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, MenuActivity.class);
+                intent.putExtra("userToken", userIdToken);
                 startActivity(intent);
                 break;
             case R.id.nav_useraccount:
@@ -94,7 +108,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void getRestaurantId(){
-        Call<Restaurant> call = serverApi.getRestaurant(tableId);
+        Call<Restaurant> call = serverApi.getRestaurant(tableId, ("Bearer "+userIdToken));
         call.enqueue(new Callback<Restaurant>() {
             @Override
             public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
@@ -104,6 +118,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
                 Restaurant restaurant = response.body();
                 restId = restaurant.getRestaurantId();
+                Log.d("restId", restaurant.getRestaurantId());
                 Toast.makeText(HomeActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
             }
 
@@ -114,6 +129,28 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
+//    public void getUserIdToken(){
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+//            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+//                @Override
+//                public void onComplete(@NonNull Task<GetTokenResult> task) {
+//                    if (task.isSuccessful()) {
+//                        userIdToken = task.getResult().getToken();
+//                        Log.d("User token received",userIdToken);
+//                    }
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.d("User token not received","Token failed from main thread single "+e.toString());
+//                }
+//            });
+//        }
+//        else{
+//            Log.d("nullUser", "0000");
+//        }
+//    }
+
     public static String getTableId(){
         return tableId;
     }
@@ -121,4 +158,65 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     public static String getRestId(){
         return restId;
     }
+
+    public void getUserIdToken(){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                @Override
+                public void onComplete(@NonNull Task<GetTokenResult> task) {
+                    if (task.isSuccessful()) {
+                        Call<Restaurant> call = serverApi.getRestaurant(tableId, ("Bearer "+task.getResult().getToken()));
+                        call.enqueue(new Callback<Restaurant>() {
+                            @Override
+                            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+                                if(!response.isSuccessful()){
+                                    Toast.makeText(HomeActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                Restaurant restaurant = response.body();
+                                restId = restaurant.getRestaurantId();
+                                Log.d("restId", restaurant.getRestaurantId());
+                                Toast.makeText(HomeActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Restaurant> call, Throwable t) {
+                                Log.d("OnFailure", t.getMessage());
+                            }
+                        });
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("User token not received","Token failed from main thread single "+e.toString());
+                }
+            });
+        }
+        else{
+            Log.d("nullUser", "0000");
+        }
+    }
+
+    private class FetchingTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            CloudFunctions.getInstance().initializeRestId();
+            while(restId == null){
+                restId = CloudFunctions.getInstance().getRestId();
+            }
+            tableId = CloudFunctions.getInstance().getTableId();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("onpost", tableId+"\n"+CloudFunctions.getInstance().getRestId());
+            textView.setText(restId);
+        }
+    }
+
 }

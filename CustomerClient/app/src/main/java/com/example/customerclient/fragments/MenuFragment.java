@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.customerclient.Interfaces.ServerApi;
+import com.example.customerclient.ServerComms.ServerApi;
 import com.example.customerclient.R;
 import com.example.customerclient.activities.HomescreenActivity;
 import com.google.firebase.firestore.FirebaseFirestore;

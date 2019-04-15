@@ -8,21 +8,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.example.customerclient.Interfaces.ServerApi;
-import com.example.customerclient.Model.Restaurant;
+import com.example.customerclient.ServerComms.ServerApi;
 import com.example.customerclient.R;
 import com.example.customerclient.fragments.AccountFragment;
 import com.example.customerclient.fragments.MenuFragment;
 import com.example.customerclient.fragments.SettingsFragment;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -60,7 +54,7 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
 
         serverApi = retrofit.create(ServerApi.class);
 
-        getRestaurantId();
+//        getRestaurantId();
 
 
 //        if(savedInstanceState == null) {
@@ -100,26 +94,26 @@ public class HomescreenActivity extends AppCompatActivity implements NavigationV
 
 
 
-    private void getRestaurantId(){
-        Call<Restaurant> call = serverApi.getRestaurant(tableId);
-        call.enqueue(new Callback<Restaurant>() {
-            @Override
-            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(HomescreenActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Restaurant restaurant = response.body();
-                restId = restaurant.getRestaurantId();
-                Toast.makeText(HomescreenActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Restaurant> call, Throwable t) {
-                Log.d("OnFailure", t.getMessage());
-            }
-        });
-    }
+//    private void getRestaurantId(){
+//        Call<Restaurant> call = serverApi.getRestaurant(tableId);
+//        call.enqueue(new Callback<Restaurant>() {
+//            @Override
+//            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+//                if(!response.isSuccessful()){
+//                    Toast.makeText(HomescreenActivity.this, response.toString(), Toast.LENGTH_LONG).show();
+//                    return;
+//                }
+//                Restaurant restaurant = response.body();
+//                restId = restaurant.getRestaurantId();
+//                Toast.makeText(HomescreenActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Restaurant> call, Throwable t) {
+//                Log.d("OnFailure", t.getMessage());
+//            }
+//        });
+//    }
 
     public static String getTableId(){
         return tableId;

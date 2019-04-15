@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,6 +20,7 @@ import com.varvet.barcodereadersample.QRScanner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    CloudFunctions fncs;
     FirebaseAuth mAuth;
     EditText editTextUsername;
     EditText editTextPassword;
