@@ -19,15 +19,11 @@
             android:name=".testing_stuff.MenuActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.HomescreenActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".testing_stuff.AccountAct"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".testing_stuff.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.AccountActivity" />
         <activity android:name=".activities.SignUp" />
         <activity android:name="com.varvet.barcodereadersample.QRScanner" />
         <activity
