@@ -1,4 +1,4 @@
-package com.example.customerclient.testing_stuff;
+package com.example.customerclient.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

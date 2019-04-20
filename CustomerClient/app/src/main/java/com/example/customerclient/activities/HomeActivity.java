@@ -1,6 +1,7 @@
-package com.example.customerclient.testing_stuff;
+package com.example.customerclient.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -9,58 +10,44 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.customerclient.ServerComms.ServerApi;
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
 
-import java.util.ArrayList;
-
-
-public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
-
-    private ListView listView;
     private TextView textView;
-    private String restId;
-    private ArrayList<String> menuHeaders;
+    private static String tableId, restId;
+    private ServerApi serverApi;
+    private String userIdToken;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu2);
-        listView = findViewById(R.id.menu_header_list);
-        textView = findViewById(R.id.rest_name);
+        setContentView(R.layout.activity_home);
+        textView = findViewById(R.id.rest_name_home);
+
+        Log.d("tablee", CloudFunctions.getInstance().getTableId());
 
         /*---------NAVIGATION DRAWER ------------*/
-        Toolbar toolbar = findViewById(R.id.toolbar_menu);
+        Toolbar toolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
-        drawer = findViewById(R.id.drawer_layout_menu);
-        NavigationView navigationView = findViewById(R.id.nav_view_menu);
+        drawer = findViewById(R.id.drawer_layout_home);
+        NavigationView navigationView = findViewById(R.id.nav_view_home);
         navigationView.setNavigationItemSelectedListener(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         /*---------------------------------------*/
 
-        /* PUT ITEMS IN THE LISTVIEW */
-        menuHeaders = new ArrayList<>();
-        menuHeaders.add("H1");
-        menuHeaders.add("H2");
-        menuHeaders.add("H3");
-        menuHeaders.add("H4");
-
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                menuHeaders
-        );
-        listView.setAdapter(listViewAdapter);
-
+        // Gets restaurantId and Headings
+        new FetchingTask().execute();
     }
 
     @Override
@@ -69,6 +56,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, MenuActivity.class);
+                intent.putExtra("userToken", userIdToken);
+                startActivity(intent);
                 break;
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
@@ -83,7 +73,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START))
@@ -92,4 +81,29 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
+    // USING TO FETCH DATA FROM BACK END AND TO INITIALIZE MODELS
+    private class FetchingTask extends AsyncTask<Void, Void, Void>
+    {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            CloudFunctions.getInstance().initializeRestId();
+            while(restId == null){
+                restId = CloudFunctions.getInstance().getRestId();
+            }
+            tableId = CloudFunctions.getInstance().getTableId();
+            CloudFunctions.getInstance().initializeHeadings();
+            while(CloudFunctions.getInstance().getHeadings() == null){
+            }
+            Log.d("Heading", CloudFunctions.getInstance().getHeadings().toString());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            textView.setText(restId);
+        }
+    }
+
 }

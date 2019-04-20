@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.customerclient.R
 import com.example.customerclient.ServerComms.CloudFunctions
-import com.example.customerclient.testing_stuff.HomeActivity
+import com.example.customerclient.activities.HomeActivity
 import com.example.customerclient.varvet.barcodereader.barcode.BarcodeCaptureActivity
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode

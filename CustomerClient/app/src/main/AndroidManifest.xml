@@ -13,16 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".testing_stuff.HomeActivity"
+            android:name=".activities.HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".testing_stuff.MenuActivity"
+            android:name=".activities.MenuActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".testing_stuff.AccountAct"
+            android:name=".activities.AccountAct"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".testing_stuff.SettingsActivity"
+            android:name=".activities.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SignUp" />
         <activity android:name="com.varvet.barcodereadersample.QRScanner" />
