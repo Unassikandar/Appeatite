@@ -3,6 +3,7 @@ package com.example.customerclient.ServerComms;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.customerclient.Model.Headings;
 import com.example.customerclient.Model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -18,9 +19,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CloudFunctions {
 
+    private final String TAG = "Debugging CF";
     private String tableId, restId;
     private ServerApi serverApi;
     private String userIdToken;
+    private Headings headings;
 
     private static final CloudFunctions instance = new CloudFunctions();
 
@@ -78,9 +81,45 @@ public class CloudFunctions {
         }else{Log.d("initiallizeUserIdToken", "User is null");}
     }
 
+    public void initializeHeadings(){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            userIdToken = task.getResult().getToken();
+                            Call<Headings> call = serverApi.getHeadings(restId, "Bearer " + userIdToken);
+                            call.enqueue(new Callback<Headings>() {
+                                @Override
+                                public void onResponse(Call<Headings> call, Response<Headings> response) {
+                                    if(!response.isSuccessful()){
+                                        Log.d(TAG, "Heading response not successful");
+                                        return;
+                                    }
+                                    headings = response.body();
+                                    Log.d("headings=", headings.toString());
+                                }
+
+                                @Override
+                                public void onFailure(Call<Headings> call, Throwable t) {
+                                    Log.d("OnFailure", "headings failure: " + t.getMessage());
+                                }
+                            });
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "Headings, usertoken failure: "+e.getMessage());
+                }
+            });
+        }
+        else{ Log.d(TAG, "User is null");}
+    }
+
 
     public void initializeValues(){
         initializeRestId();
+        initializeHeadings();
     }
 
     public String getTableId() {
@@ -93,6 +132,10 @@ public class CloudFunctions {
 
     public void setTableId(String tid){
         tableId = tid;
+    }
+
+    public Headings getHeadings(){
+        return headings;
     }
 
 }

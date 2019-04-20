@@ -57,21 +57,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         /*---------------------------------------*/
 
-////        tableId = getIntent().getStringExtra("tableKey");
-//        /*************************/
-//        CloudFunctions.getInstance().initializeValues();
-//        tableId = CloudFunctions.getInstance().getTableId();
-//        restId = CloudFunctions.getInstance().getRestId();
-//        /*************************/
-////
-////        new FetchingTask().execute();
-//
-//        Log.d("tablee", tableId+"\n"+restId);
-//
-//        textView.setText(restId);
+        // Gets restaurantId and Headings
         new FetchingTask().execute();
-
-
     }
 
     @Override
@@ -106,98 +93,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
-    private void getRestaurantId(){
-        Call<Restaurant> call = serverApi.getRestaurant(tableId, ("Bearer "+userIdToken));
-        call.enqueue(new Callback<Restaurant>() {
-            @Override
-            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
-                if(!response.isSuccessful()){
-                    Toast.makeText(HomeActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Restaurant restaurant = response.body();
-                restId = restaurant.getRestaurantId();
-                Log.d("restId", restaurant.getRestaurantId());
-                Toast.makeText(HomeActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFailure(Call<Restaurant> call, Throwable t) {
-                Log.d("OnFailure", t.getMessage());
-            }
-        });
-    }
-
-//    public void getUserIdToken(){
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-//                @Override
-//                public void onComplete(@NonNull Task<GetTokenResult> task) {
-//                    if (task.isSuccessful()) {
-//                        userIdToken = task.getResult().getToken();
-//                        Log.d("User token received",userIdToken);
-//                    }
-//                }
-//            }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d("User token not received","Token failed from main thread single "+e.toString());
-//                }
-//            });
-//        }
-//        else{
-//            Log.d("nullUser", "0000");
-//        }
-//    }
-
-    public static String getTableId(){
-        return tableId;
-    }
-
-    public static String getRestId(){
-        return restId;
-    }
-
-    public void getUserIdToken(){
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true).addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-                @Override
-                public void onComplete(@NonNull Task<GetTokenResult> task) {
-                    if (task.isSuccessful()) {
-                        Call<Restaurant> call = serverApi.getRestaurant(tableId, ("Bearer "+task.getResult().getToken()));
-                        call.enqueue(new Callback<Restaurant>() {
-                            @Override
-                            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
-                                if(!response.isSuccessful()){
-                                    Toast.makeText(HomeActivity.this, response.toString(), Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                Restaurant restaurant = response.body();
-                                restId = restaurant.getRestaurantId();
-                                Log.d("restId", restaurant.getRestaurantId());
-                                Toast.makeText(HomeActivity.this, restaurant.getRestaurantId(), Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onFailure(Call<Restaurant> call, Throwable t) {
-                                Log.d("OnFailure", t.getMessage());
-                            }
-                        });
-                    }
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("User token not received","Token failed from main thread single "+e.toString());
-                }
-            });
-        }
-        else{
-            Log.d("nullUser", "0000");
-        }
-    }
-
+    // USING TO FETCH DATA FROM BACK END AND TO INITIALIZE MODELS
     private class FetchingTask extends AsyncTask<Void, Void, Void>
     {
         @Override
@@ -207,14 +103,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 restId = CloudFunctions.getInstance().getRestId();
             }
             tableId = CloudFunctions.getInstance().getTableId();
-
+            CloudFunctions.getInstance().initializeHeadings();
+            while(CloudFunctions.getInstance().getHeadings() == null){
+            }
+            Log.d("Heading", CloudFunctions.getInstance().getHeadings().toString());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Log.d("onpost", tableId+"\n"+CloudFunctions.getInstance().getRestId());
             textView.setText(restId);
         }
     }
