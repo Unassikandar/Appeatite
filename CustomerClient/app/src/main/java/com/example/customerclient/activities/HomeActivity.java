@@ -14,17 +14,17 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.customerclient.ServerComms.ServerApi;
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private TextView textView;
     private static String tableId, restId;
-    private ServerApi serverApi;
-    private String userIdToken;
+
 
 
     @Override
@@ -32,8 +32,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         textView = findViewById(R.id.rest_name_home);
-
-        Log.d("tablee", CloudFunctions.getInstance().getTableId());
 
         /*---------NAVIGATION DRAWER ------------*/
         Toolbar toolbar = findViewById(R.id.toolbar_home);
@@ -48,7 +46,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // Gets restaurantId and Headings
         new FetchingTask().execute();
+
+
+
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -57,7 +60,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, MenuActivity.class);
-                intent.putExtra("userToken", userIdToken);
                 startActivity(intent);
                 break;
             case R.id.nav_useraccount:
@@ -95,15 +97,22 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             CloudFunctions.getInstance().initializeHeadings();
             while(CloudFunctions.getInstance().getHeadings() == null){
             }
-            Log.d("Heading", CloudFunctions.getInstance().getHeadings().toString());
+            Log.d("Fetching Heading", CloudFunctions.getInstance().getHeadings().toString());
+            CloudFunctions.getInstance().initializeMenuItems();
+            while (CloudFunctions.getInstance().getMenuItems() == null){}
+            Log.d("Fetching MenuItems", CloudFunctions.getInstance().getMenuItems().toString());
             return null;
         }
-
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            ArrayList<String> names = CloudFunctions.getInstance().getHeadings().getNames();
+            Log.d("Fetching names", names.toString());
+//            while(CloudFunctions.getInstance().getTempListMenu().size() != CloudFunctions.getInstance().getHeadings().getData().size()){}
+            Log.d("Fetching tempList", CloudFunctions.getInstance().getTempListMenu().toString());
             textView.setText(restId);
         }
     }
+
 
 }

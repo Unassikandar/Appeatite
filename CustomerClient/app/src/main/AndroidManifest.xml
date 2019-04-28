@@ -29,10 +29,12 @@
         <activity
             android:name=".varvet.barcodereader.barcode.BarcodeCaptureActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".activities.MainActivity"
+        <activity
+            android:name=".activities.MainActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

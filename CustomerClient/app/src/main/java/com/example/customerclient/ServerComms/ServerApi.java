@@ -1,6 +1,7 @@
 package com.example.customerclient.ServerComms;
 
 import com.example.customerclient.Model.Headings;
+import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.Model.Restaurant;
 
 import retrofit2.Call;
@@ -22,5 +23,9 @@ public interface ServerApi {
     @Headers("Content-Type: application/json")
     @GET("getHeadings ")
     Call<Headings> getHeadings (@Query("restaurantId") String restaurantId, @Header("Authorization") String userAuth);
+
+    @Headers("Content-Type: application/json")
+    @GET("getMenuItems ")
+    Call<MenuItems> getMenuItems (@Query("headingId") String restaurantId, @Header("Authorization") String userAuth);
 
 }
