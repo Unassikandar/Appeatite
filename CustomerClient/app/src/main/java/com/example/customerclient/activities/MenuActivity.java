@@ -2,7 +2,9 @@ package com.example.customerclient.activities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -35,7 +37,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     private PagerAdapter pagerAdapter;
     private ViewPager viewPager;
-
+    private TabLayout tabLayout;
     private ListView listView;
     private TextView textView;
     private ArrayList<String> menuHeaders;
@@ -57,10 +59,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         /*---------------------------------------*/
 
+        /* Set up fragments for menu */
         ArrayList<String> headingNames = CloudFunctions.getInstance().getHeadings().getNames();
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), headingNames);
         viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
+
+        tabLayout = findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewPager);
 
 //        /*ADDING MENU ITEMS TO ROWS IN LIST*/
 //        rows = new ArrayList<>();
@@ -132,5 +138,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             return fragments.get(position);
         }
 
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return CloudFunctions.getInstance().getHeadings().getNames().get(position);
+        }
     }
 }
