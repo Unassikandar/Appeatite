@@ -38,4 +38,7 @@
     <string name="Small">Small</string>
     <string name="Large">Large</string>
     <string name="Apply">Apply</string>
+
+    <!-- Strings for account page-->
+    <string name="Welcome">Welcome</string>
 </resources>
