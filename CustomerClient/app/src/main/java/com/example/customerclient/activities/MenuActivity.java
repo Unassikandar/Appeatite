@@ -21,12 +21,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.customerclient.Model.MenuItemData;
+import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
 import com.example.customerclient.activities.helper.TestFragment;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -41,6 +44,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private TextView textView;
     private ArrayList<String> menuHeaders;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,22 +64,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         /*---------------------------------------*/
 
         /* Set up fragments for menu */
-        ArrayList<String> headingNames = CloudFunctions.getInstance().getHeadings().getNames();
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), headingNames);
+        ArrayList<MenuItems> menuList = CloudFunctions.getInstance().getTempListMenu();
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), menuList);
         viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
 
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
-//        /*ADDING MENU ITEMS TO ROWS IN LIST*/
-//        rows = new ArrayList<>();
-//        for(MenuItems items : CloudFunctions.getInstance().getTempListMenu()){
-//            rows.addAll(items.getData());
-//        }
-//        listAdapter = new MenuListAdapter(this, rows);
-//        listView.setAdapter(listAdapter);
-//        /*==================================*/
 
     }
 
@@ -115,13 +111,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         List<Fragment> fragments;
 
-        public PagerAdapter(FragmentManager fm, List<String> headingNames) {
+        public PagerAdapter(FragmentManager fm, ArrayList<MenuItems> menuList) {
             super(fm);
 
             fragments = new ArrayList<>();
-            for(String name : headingNames){
-                fragments.add(TestFragment.init(name));
+            for(int i=0; i<CloudFunctions.getInstance().getHeadings().getData().size(); i++){
+                fragments.add(TestFragment.init(i));
             }
+
         }
 
         @Override
@@ -132,10 +129,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         @Override
         public int getCount() {
             return fragments.size();
-        }
-
-        public Fragment getFragment(int position) {
-            return fragments.get(position);
         }
 
         @Nullable
