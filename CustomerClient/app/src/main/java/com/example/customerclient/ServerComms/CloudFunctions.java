@@ -1,15 +1,21 @@
 package com.example.customerclient.ServerComms;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.customerclient.Model.Headings;
+import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.Model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GetTokenResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,23 +30,33 @@ public class CloudFunctions {
     private ServerApi serverApi;
     private String userIdToken;
     private Headings headings;
+    private String headingId;
+    private MenuItems menuItems;
+
+    private ArrayList<MenuItems> tempListMenu;
 
     private static final CloudFunctions instance = new CloudFunctions();
 
-    private CloudFunctions(){
+    private CloudFunctions() {
         tableId = null;
         restId = null;
         userIdToken = null;
+        tempListMenu = new ArrayList<>();
+
+        Gson gson = new GsonBuilder().serializeNulls().create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://us-central1-appeatite-3b562.cloudfunctions.net/api/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
+
         serverApi = retrofit.create(ServerApi.class);
+
     }
 
-    public static CloudFunctions getInstance(){
+
+    public static CloudFunctions getInstance() {
         return instance;
     }
 
@@ -61,7 +77,7 @@ public class CloudFunctions {
                                             return;
                                         }
                                         restId = response.body().getRestaurantId();
-                                        Log.d("restId=", restId);
+                                        //Log.d("restId=", restId);
                                     }
 
                                     @Override
@@ -73,30 +89,34 @@ public class CloudFunctions {
                         }
 
                     }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("User token not received", "Token failed from main thread single " + e.toString());
-                        }
-                    });
-        }else{Log.d("initiallizeUserIdToken", "User is null");}
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("User token not received", "Token failed from main thread single " + e.toString());
+                }
+            });
+        } else {
+            Log.d("initiallizeUserIdToken", "User is null");
+        }
     }
 
-    public void initializeHeadings(){
-        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+    public void initializeHeadings() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
                     .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                         @Override
                         public void onComplete(@NonNull Task<GetTokenResult> task) {
                             userIdToken = task.getResult().getToken();
+                            Log.d("token=", userIdToken);
                             Call<Headings> call = serverApi.getHeadings(restId, "Bearer " + userIdToken);
                             call.enqueue(new Callback<Headings>() {
                                 @Override
                                 public void onResponse(Call<Headings> call, Response<Headings> response) {
-                                    if(!response.isSuccessful()){
+                                    if (!response.isSuccessful()) {
                                         Log.d(TAG, "Heading response not successful");
                                         return;
                                     }
                                     headings = response.body();
+                                    headingId = headings.getHeadingId();
                                     Log.d("headings=", headings.toString());
                                 }
 
@@ -109,18 +129,87 @@ public class CloudFunctions {
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d(TAG, "Headings, usertoken failure: "+e.getMessage());
+                    Log.d(TAG, "Headings, usertoken failure: " + e.getMessage());
                 }
             });
+        } else {
+            Log.d(TAG, "User is null");
         }
-        else{ Log.d(TAG, "User is null");}
     }
 
+//    public void initializeMenuItems(){
+//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+//            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
+//                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+//                            userIdToken = task.getResult().getToken();
+//                            Call<MenuItems> call = serverApi.getMenuItems(headingId, "Bearer " + userIdToken);
+//                            call.enqueue(new Callback<MenuItems>() {
+//                                @Override
+//                                public void onResponse(Call<MenuItems> call, Response<MenuItems> response) {
+//                                    if(!response.isSuccessful()){
+//                                        Log.d(TAG, "Heading response not successful");
+//                                        return;
+//                                    }
+//                                    menuItems = response.body();
+//                                    Log.d(TAG, menuItems.toString());
+//                                }
+//
+//                                @Override
+//                                public void onFailure(Call<MenuItems> call, Throwable t) {
+//                                    Log.d("OnFailure", "menuitems failure: " + t.getMessage());
+//                                }
+//                            });
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    Log.d(TAG, "Headings, usertoken failure: "+e.getMessage());
+//                }
+//            });
+//        } else{ Log.d(TAG, "User is null");}
+//    }
 
-    public void initializeValues(){
-        initializeRestId();
-        initializeHeadings();
+    public void initializeMenuItems() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            userIdToken = task.getResult().getToken();
+                            for (int i = 0; i < headings.getData().size(); i++) {
+                                Call<MenuItems> call = serverApi.getMenuItems(headings.getIds().get(i), "Bearer " + userIdToken);
+                                call.enqueue(new Callback<MenuItems>() {
+                                    @Override
+                                    public void onResponse(Call<MenuItems> call, Response<MenuItems> response) {
+                                        if (!response.isSuccessful()) {
+                                            Log.d(TAG, "MenuItems response not successful");
+                                            return;
+                                        }
+                                        menuItems = response.body();
+                                        Log.d(TAG, menuItems.toString());
+                                        tempListMenu.add(menuItems);
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<MenuItems> call, Throwable t) {
+                                        Log.d("OnFailure", "menuitems failure: " + t.getMessage());
+                                    }
+                                });
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d(TAG, "Headings, usertoken failure: " + e.getMessage());
+                }
+            });
+        } else {
+            Log.d(TAG, "User is null");
+        }
     }
+
 
     public String getTableId() {
         return tableId;
@@ -130,12 +219,21 @@ public class CloudFunctions {
         return restId;
     }
 
-    public void setTableId(String tid){
+    public void setTableId(String tid) {
         tableId = tid;
     }
 
-    public Headings getHeadings(){
+    public Headings getHeadings() {
         return headings;
     }
+
+    public MenuItems getMenuItems() {
+        return menuItems;
+    }
+
+    public ArrayList<MenuItems> getTempListMenu(){
+        return tempListMenu;
+    }
+
 
 }
