@@ -26,6 +26,7 @@ public class TestFragment extends Fragment {
 
     private ArrayList<MenuItems> menuItems;
     private int fragVal;
+    ListView listView;
 
     public static TestFragment init (int fragVal){
         TestFragment newFragment = new TestFragment();
@@ -40,7 +41,7 @@ public class TestFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        fragVal = getArguments().getInt("val");
+        fragVal = getArguments().getInt("fragVal");
         Log.d("FragVal", String.valueOf(fragVal));
         menuItems = new ArrayList<>();
         menuItems = CloudFunctions.getInstance().getTempListMenu();
@@ -51,9 +52,7 @@ public class TestFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layoutView = inflater.inflate(R.layout.fragment_list, container, false);
 
-
-
-        ListView listView = layoutView.findViewById(R.id.menu_item_listview);
+        listView = layoutView.findViewById(R.id.menu_item_listview);
         ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData());
         listView.setAdapter(listAdapter);
 
@@ -63,8 +62,11 @@ public class TestFragment extends Fragment {
         return layoutView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData());
+        listView.setAdapter(listAdapter);
 
-
-
-
+    }
 }

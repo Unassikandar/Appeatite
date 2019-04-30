@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.widget.ListView;
@@ -36,7 +38,6 @@ import java.util.List;
 
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private DrawerLayout drawer;
 
@@ -80,17 +81,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
 
         /* Set up fragments for menu */
-        ArrayList<MenuItems> menuList = CloudFunctions.getInstance().getTempListMenu();
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), menuList);
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
 
-
-
-
+        viewPager.getAdapter().notifyDataSetChanged();
     }
 
 
@@ -131,9 +129,9 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
 
-        List<Fragment> fragments;
+        List<TestFragment> fragments;
 
-        public PagerAdapter(FragmentManager fm, ArrayList<MenuItems> menuList) {
+        public PagerAdapter(FragmentManager fm) {
             super(fm);
 
             fragments = new ArrayList<>();
@@ -158,5 +156,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         public CharSequence getPageTitle(int position) {
             return CloudFunctions.getInstance().getHeadings().getNames().get(position);
         }
+
     }
+
 }
