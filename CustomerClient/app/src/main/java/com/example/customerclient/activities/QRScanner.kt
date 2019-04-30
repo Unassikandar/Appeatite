@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.example.customerclient.R
 import com.example.customerclient.ServerComms.CloudFunctions
 import com.example.customerclient.activities.HomeActivity
+import com.example.customerclient.activities.WelcomeActivity
 import com.example.customerclient.varvet.barcodereader.barcode.BarcodeCaptureActivity
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.vision.barcode.Barcode
@@ -21,16 +22,22 @@ class QRScanner : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qrscanner)
 
-        mResultTextView = findViewById(R.id.result_textview)
 
         findViewById<Button>(R.id.scan_barcode_button).setOnClickListener {
             val intent = Intent(applicationContext, BarcodeCaptureActivity::class.java)
             startActivityForResult(intent, BARCODE_READER_REQUEST_CODE)
         }
+
+        findViewById<Button>(R.id.back_button).setOnClickListener {
+            val intent = Intent(applicationContext, WelcomeActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == BARCODE_READER_REQUEST_CODE) {
+            mResultTextView = findViewById(R.id.result_textview)
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     val barcode = data.getParcelableExtra<Barcode>(BarcodeCaptureActivity.BarcodeObject)

@@ -26,7 +26,9 @@ import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
 import com.example.customerclient.activities.helper.TestFragment;
-
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.varvet.barcodereadersample.QRScanner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -62,15 +64,31 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         /*---------------------------------------*/
+        //Header of navigation drawer
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        TextView tv = navigationView.getHeaderView(0).findViewById(R.id.txtUser);
+        String temp = currentUser.getEmail();
+        temp = temp.substring(0, temp.indexOf("@"));
+        tv.append(temp);
+
+        TextView tv2 = navigationView.getHeaderView(0).findViewById(R.id.emailUser);
+        String temp2 = currentUser.getEmail();
+        tv2.append(temp2);
+        /*==========================================*/
+
 
         /* Set up fragments for menu */
         ArrayList<MenuItems> menuList = CloudFunctions.getInstance().getTempListMenu();
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), menuList);
         viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
-
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
+
+
+
 
 
     }
@@ -89,11 +107,15 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, AccountAct.class);
                 startActivity(intent);
                 break;
-//            case R.id.nav_settings:
-//                drawer.closeDrawer(GravityCompat.START);
-//                intent = new Intent(this, SettingsActivity.class);
-//                startActivity(intent);
-//                break;
+            case R.id.nav_settings:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_scan:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, QRScanner.class);
+                startActivity(intent);
         }
         return true;
     }
