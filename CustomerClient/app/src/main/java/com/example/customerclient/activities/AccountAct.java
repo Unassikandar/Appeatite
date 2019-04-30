@@ -65,6 +65,8 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
 
     private StorageReference mStorage;
 
+    FirebaseUser currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +91,7 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
 
         //Header of navigation drawer
         mAuth = FirebaseAuth.getInstance();
-        final FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
         TextView tv3 = navigationView.getHeaderView(0).findViewById(R.id.txtUser);
         String temp3 = currentUser.getEmail();
         temp3 = temp3.substring(0, temp3.indexOf("@"));

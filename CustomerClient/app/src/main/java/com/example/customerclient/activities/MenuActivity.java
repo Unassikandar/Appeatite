@@ -17,11 +17,14 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
+import com.example.customerclient.activities.helper.TestFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.varvet.barcodereadersample.QRScanner;
@@ -87,6 +90,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 menuHeaders
         );
         listView.setAdapter(listViewAdapter);
+
     }
 
 

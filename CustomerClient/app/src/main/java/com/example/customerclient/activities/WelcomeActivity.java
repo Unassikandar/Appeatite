@@ -56,7 +56,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
 
 
         //Get username and display welcome user
-        TextView tv = findViewById(R.id.welcomeTxt);
+        TextView tv = findViewById(R.id.hiText);
         String temp = currentUser.getEmail();
         temp = temp.substring(0, temp.indexOf("@"));
         tv.append(temp + '!');
@@ -92,6 +92,10 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
                 intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_scan:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, QRScanner.class);
+                startActivity(intent);
         }
         return true;
     }
