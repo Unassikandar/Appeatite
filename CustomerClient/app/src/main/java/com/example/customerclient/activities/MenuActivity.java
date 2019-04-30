@@ -7,6 +7,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.widget.ArrayAdapter;
@@ -22,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.customerclient.Model.MenuItemData;
+import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
 import com.example.customerclient.activities.helper.TestFragment;
@@ -30,11 +34,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.varvet.barcodereadersample.QRScanner;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
 
     private DrawerLayout drawer;
 
@@ -44,6 +48,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private ListView listView;
     private TextView textView;
     private ArrayList<String> menuHeaders;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +66,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         /*---------------------------------------*/
-
         //Header of navigation drawer
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
@@ -74,15 +78,16 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         TextView tv2 = navigationView.getHeaderView(0).findViewById(R.id.emailUser);
         String temp2 = currentUser.getEmail();
         tv2.append(temp2);
+        /*==========================================*/
 
 
+        /* Set up fragments for menu */
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager());
+        viewPager = findViewById(R.id.pager);
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout = findViewById(R.id.tablayout);
+        tabLayout.setupWithViewPager(viewPager);
 
-        /* PUT ITEMS IN THE LISTVIEW */
-        menuHeaders = new ArrayList<>();
-        menuHeaders.add("H1");
-        menuHeaders.add("H2");
-        menuHeaders.add("H3");
-        menuHeaders.add("H4");
 
         ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
                 getApplicationContext(),
@@ -131,15 +136,16 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
     public class PagerAdapter extends FragmentStatePagerAdapter {
 
-        List<Fragment> fragments;
+        List<TestFragment> fragments;
 
-        public PagerAdapter(FragmentManager fm, List<String> headingNames) {
+        public PagerAdapter(FragmentManager fm) {
             super(fm);
 
             fragments = new ArrayList<>();
-            for(String name : headingNames){
-                fragments.add(TestFragment.init(name));
+            for(int i=0; i<CloudFunctions.getInstance().getHeadings().getData().size(); i++){
+                fragments.add(TestFragment.init(i));
             }
+
         }
 
         @Override
@@ -152,14 +158,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             return fragments.size();
         }
 
-        public Fragment getFragment(int position) {
-            return fragments.get(position);
-        }
-
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
             return CloudFunctions.getInstance().getHeadings().getNames().get(position);
         }
+
     }
+
 }

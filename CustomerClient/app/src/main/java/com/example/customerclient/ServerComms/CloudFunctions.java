@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.customerclient.Model.Headings;
+import com.example.customerclient.Model.MenuItemData;
 import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.Model.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +36,7 @@ public class CloudFunctions {
     private MenuItems menuItems;
 
     private ArrayList<MenuItems> tempListMenu;
+    private HashMap<String, ArrayList<MenuItemData>> map;
 
     private static final CloudFunctions instance = new CloudFunctions();
 
@@ -137,39 +140,6 @@ public class CloudFunctions {
         }
     }
 
-//    public void initializeMenuItems(){
-//        if(FirebaseAuth.getInstance().getCurrentUser() != null){
-//            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
-//                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task<GetTokenResult> task) {
-//                            userIdToken = task.getResult().getToken();
-//                            Call<MenuItems> call = serverApi.getMenuItems(headingId, "Bearer " + userIdToken);
-//                            call.enqueue(new Callback<MenuItems>() {
-//                                @Override
-//                                public void onResponse(Call<MenuItems> call, Response<MenuItems> response) {
-//                                    if(!response.isSuccessful()){
-//                                        Log.d(TAG, "Heading response not successful");
-//                                        return;
-//                                    }
-//                                    menuItems = response.body();
-//                                    Log.d(TAG, menuItems.toString());
-//                                }
-//
-//                                @Override
-//                                public void onFailure(Call<MenuItems> call, Throwable t) {
-//                                    Log.d("OnFailure", "menuitems failure: " + t.getMessage());
-//                                }
-//                            });
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    Log.d(TAG, "Headings, usertoken failure: "+e.getMessage());
-//                }
-//            });
-//        } else{ Log.d(TAG, "User is null");}
-//    }
 
     public void initializeMenuItems() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
@@ -234,6 +204,5 @@ public class CloudFunctions {
     public ArrayList<MenuItems> getTempListMenu(){
         return tempListMenu;
     }
-
 
 }

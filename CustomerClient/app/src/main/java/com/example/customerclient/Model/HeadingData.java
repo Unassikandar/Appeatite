@@ -1,6 +1,7 @@
 package com.example.customerclient.Model;
 
-class HeadingData {
+public class HeadingData {
+
     private String restaurantId;
     private String headingId;
     private String name;
