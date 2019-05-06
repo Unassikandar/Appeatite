@@ -37,5 +37,13 @@
         android:layout_toRightOf="@+id/imageView1"
         tools:text="Ingredients" />
 
+    <TextView
+        android:id="@+id/test_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/test_addbtn"
+        android:layout_marginRight="3dp"
+        android:textSize="20sp"/>
+
 
 </RelativeLayout>

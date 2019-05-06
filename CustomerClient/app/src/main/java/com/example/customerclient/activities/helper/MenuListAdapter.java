@@ -31,9 +31,12 @@ public class MenuListAdapter extends ArrayAdapter<MenuItemData> {
         // Lookup view for data population
         TextView menuItemName = convertView.findViewById(R.id.test_item_name);
         TextView menuItemIngredients = convertView.findViewById(R.id.test_item_ingredients);
+        TextView menuItemPrice = convertView.findViewById(R.id.test_item_price);
         // Populate the data into the template view using the data object
         menuItemName.setText(menuItem.getName());
         menuItemIngredients.setText(menuItem.getIngredients());
+        String price = menuItem.getPrice() + " TL";
+        menuItemPrice.setText(price);
         // Handle button listener
         Button addItemBtn = convertView.findViewById(R.id.test_addbtn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
