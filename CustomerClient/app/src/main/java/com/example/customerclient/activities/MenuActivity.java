@@ -49,6 +49,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private TextView textView;
     private ArrayList<String> menuHeaders;
 
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +69,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         /*---------------------------------------*/
         //Header of navigation drawer
-        FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser currentUser = mAuth.getCurrentUser();
         TextView tv = navigationView.getHeaderView(0).findViewById(R.id.txtUser);
@@ -112,9 +113,15 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, AccountAct.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_settings:
+            case R.id.nav_help:
                 drawer.closeDrawer(GravityCompat.START);
-                intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                drawer.closeDrawer(GravityCompat.START);
+                mAuth.signOut();
+                intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_scan:

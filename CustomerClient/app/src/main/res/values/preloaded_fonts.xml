@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/anonymous_pro</item>
+        <item>@font/chivo</item>
+        <item>@font/corben</item>
+        <item>@font/josefin_sans</item>
+        <item>@font/montserrat_subrayada</item>
+        <item>@font/pinyon_script</item>
+        <item>@font/playfair_display_sc</item>
+        <item>@font/roboto</item>
+    </array>
+</resources>

@@ -37,7 +37,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         editTextPassword = findViewById(R.id.actSignup_textfield_password);
 
         findViewById(R.id.actSignup_button_signup).setOnClickListener(this);
-        findViewById(R.id.actSignup_button_back).setOnClickListener(this);
+        findViewById(R.id.actSignup_button_login).setOnClickListener(this);
 
         progressBar = findViewById(R.id.progress_bar);
 
@@ -78,8 +78,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
              public void onComplete(@NonNull Task<AuthResult> task) {
                  progressBar.setVisibility(View.GONE);
                  if(task.isSuccessful()){
-                     Toast.makeText(getApplicationContext(),"user registeration successful.", Toast.LENGTH_LONG).show();
-                     Intent intent = new Intent(SignUp.this, MainActivity.class);
+                     Toast.makeText(getApplicationContext(),"User Registration Successful.", Toast.LENGTH_LONG).show();
+                     Intent intent = new Intent(SignUp.this, WelcomeActivity.class);
                      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                      startActivity(intent);
                  }
@@ -103,7 +103,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
                 registerUser();
                 break;
 
-            case R.id.actSignup_button_back:
+            case R.id.actSignup_button_login:
+                mAuth.signOut();
                 startActivity(new Intent(this, MainActivity.class));
                 break;
         }

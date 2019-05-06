@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Customer Client</string>
+    <string name="app_name">Appeatite</string>
 
     <!-- String related to the navigation drawer -->
     <string name="navigation_drawer_open">Open Navigation Drawer</string>

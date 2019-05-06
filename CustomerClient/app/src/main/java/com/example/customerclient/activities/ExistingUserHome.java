@@ -12,31 +12,26 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.rpc.Help;
 import com.varvet.barcodereadersample.QRScanner;
 
-public class WelcomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ExistingUserHome extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private Button scanButton;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private ImageView arrow1;
-    private ImageView arrow2;
-    private Button helpButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_existing_user_home);
 
         /*---------NAVIGATION DRAWER ------------*/
         Toolbar toolbar = findViewById(R.id.toolbar_welcome);
@@ -58,7 +53,7 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomeActivity.this, QRScanner.class));
+                startActivity(new Intent(ExistingUserHome.this, QRScanner.class));
             }
         });
 
@@ -68,11 +63,10 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         TextView tv = findViewById(R.id.hiText);
         String temp = currentUser.getEmail();
         temp = temp.substring(0, temp.indexOf("@"));
-        tv.append("Welcome to Appeatite " + temp + '!');
+        tv.append("Welcome back " + temp + '!');
         tv.setTextSize(40);
         tv.setAllCaps(true);
         tv.setTextColor(Color.BLACK);
-
 
         //Header of navigation drawer
         TextView tv3 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.txtUser);
@@ -83,22 +77,6 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
         TextView tv2 = navigationView.getHeaderView(0).findViewById(R.id.emailUser);
         String temp2 = currentUser.getEmail();
         tv2.append(temp2);
-
-        arrow1 = findViewById(R.id.imageView2);
-        Animation animation= AnimationUtils.loadAnimation(WelcomeActivity.this, R.anim.blink_anim);
-        arrow1.startAnimation(animation);
-
-        arrow2 = findViewById(R.id.imageView4);
-        arrow2.startAnimation(animation);
-
-        helpButton = findViewById(R.id.btnHelp);
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WelcomeActivity.this, HelpActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -126,10 +104,6 @@ public class WelcomeActivity extends AppCompatActivity implements NavigationView
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_scan:
-                drawer.closeDrawer(GravityCompat.START);
-                intent = new Intent(this, QRScanner.class);
-                startActivity(intent);
         }
         return true;
     }

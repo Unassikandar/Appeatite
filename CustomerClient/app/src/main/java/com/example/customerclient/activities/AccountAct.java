@@ -250,9 +250,15 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
                 break;
-            case R.id.nav_settings:
+            case R.id.nav_help:
                 drawer.closeDrawer(GravityCompat.START);
-                intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, HelpActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.nav_logout:
+                drawer.closeDrawer(GravityCompat.START);
+                mAuth.signOut();
+                intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
             case R.id.nav_scan:
