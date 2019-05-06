@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.rpc.Help;
@@ -85,9 +86,14 @@ public class ExistingUserHome extends AppCompatActivity implements NavigationVie
         switch (menuItem.getItemId()){
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
-                intent = new Intent(this, MenuActivity.class);
-                startActivity(intent);
-                break;
+                if(CloudFunctions.getInstance().getTableId() != null){
+                    intent = new Intent(this, MenuActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    Toast.makeText(this, "Please scan suitable QRcode first", Toast.LENGTH_LONG).show();
+                    break;
+                }
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, AccountAct.class);
