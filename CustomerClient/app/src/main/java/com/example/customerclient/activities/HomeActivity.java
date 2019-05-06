@@ -64,11 +64,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, AccountAct.class);
                 startActivity(intent);
                 break;
-//            case R.id.nav_settings:
-//                drawer.closeDrawer(GravityCompat.START);
-//                intent = new Intent(this, SettingsActivity.class);
-//                startActivity(intent);
-//                break;
         }
         return true;
     }
