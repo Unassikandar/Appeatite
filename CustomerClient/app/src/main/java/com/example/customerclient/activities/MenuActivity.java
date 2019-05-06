@@ -89,13 +89,13 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
-
-        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-                getApplicationContext(),
-                android.R.layout.simple_list_item_1,
-                menuHeaders
-        );
-        listView.setAdapter(listViewAdapter);
+//
+//        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
+//                getApplicationContext(),
+//                android.R.layout.simple_list_item_1,
+//                menuHeaders
+//        );
+//        listView.setAdapter(listViewAdapter);
 
     }
 

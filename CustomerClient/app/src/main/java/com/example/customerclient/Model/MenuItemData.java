@@ -2,6 +2,7 @@ package com.example.customerclient.Model;
 
 public class MenuItemData {
 
+    private String menuItemId;
     private String headingId;
     private String name;
     private String calories;
@@ -67,16 +68,25 @@ public class MenuItemData {
         this.price = price;
     }
 
+    public String getMenuItemId() {
+        return menuItemId;
+    }
+
+    public void setMenuItemId(String menuItemId) {
+        this.menuItemId = menuItemId;
+    }
+
     @Override
     public String toString() {
         return "MenuItemData{" +
-                "headingId='" + headingId + '\'' +
+                "menuItemId='" + menuItemId + '\'' +
+                ", headingId='" + headingId + '\'' +
                 ", name='" + name + '\'' +
-                ", calories=" + calories +
-                ", expectedWaitTime=" + expectedWaitTime +
+                ", calories='" + calories + '\'' +
+                ", expectedWaitTime='" + expectedWaitTime + '\'' +
                 ", ingredients='" + ingredients + '\'' +
-                ", discountPercent=" + discountPercent +
-                ", price=" + price +
+                ", discountPercent='" + discountPercent + '\'' +
+                ", price='" + price + '\'' +
                 '}';
     }
 }
