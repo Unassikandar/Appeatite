@@ -46,9 +46,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         // Gets restaurantId and Headings
         new FetchingTask().execute();
-
-
-
     }
 
 
