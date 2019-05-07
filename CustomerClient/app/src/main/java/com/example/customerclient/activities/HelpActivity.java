@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -67,6 +69,15 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+
+        //TEXT ANIMATIONS
+        Animation animation= AnimationUtils.loadAnimation(HelpActivity.this, R.anim.lefttoright);
+        findViewById(R.id.textView9).setAnimation(animation);
+        findViewById(R.id.textView10).setAnimation(animation);
+        findViewById(R.id.textView13).setAnimation(animation);
+        findViewById(R.id.textView14).setAnimation(animation);
+        findViewById(R.id.textView15).setAnimation(animation);
+        findViewById(R.id.textView17).setAnimation(animation);
     }
 
     @Override

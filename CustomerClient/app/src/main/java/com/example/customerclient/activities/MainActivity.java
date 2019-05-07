@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(this, WelcomeActivity.class));
+            startActivity(new Intent(this, ExistingUserHome.class));
         }
     }
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(password.isEmpty()) {
-            editTextPassword.setError("password is required.");
+            editTextPassword.setError("Password is required.");
             editTextPassword.requestFocus();
             return;
         }
@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 else{
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });

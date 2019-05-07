@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.example.customerclient.R
 import com.example.customerclient.ServerComms.CloudFunctions
+import com.example.customerclient.activities.ExistingUserHome
 import com.example.customerclient.activities.HomeActivity
 import com.example.customerclient.activities.WelcomeActivity
 import com.example.customerclient.varvet.barcodereader.barcode.BarcodeCaptureActivity
@@ -29,7 +30,7 @@ class QRScanner : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.back_button).setOnClickListener {
-            val intent = Intent(applicationContext, WelcomeActivity::class.java)
+            val intent = Intent(applicationContext, ExistingUserHome::class.java)
             startActivity(intent)
         }
 

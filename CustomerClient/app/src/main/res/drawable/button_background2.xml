@@ -11,14 +11,14 @@
         android:endColor="@color/colorBackground"
         android:type="linear"
         />
-    <gradient
-        android:angle="45"
-        android:centerX="35%"
-        android:centerColor="#6E0505"
-        android:startColor="#960707"
-        android:endColor="#660505"
-        android:type="linear"
-        />
+    <!--<gradient-->
+    <!--android:angle="45"-->
+    <!--android:centerX="35%"-->
+    <!--android:centerColor="#6E0505"-->
+    <!--android:startColor="#960707"-->
+    <!--android:endColor="#660505"-->
+    <!--android:type="linear"-->
+    <!--/>-->
     <padding
         android:left="0dp"
         android:top="0dp"
@@ -29,8 +29,12 @@
         android:width="100dp"
         android:height="60dp"
         />
+    <!--<stroke-->
+    <!--android:width="3dp"-->
+    <!--android:color="#000000"-->
+    <!--/>-->
     <stroke
-        android:width="3dp"
-        android:color="#000000"
+        android:width="2dp"
+        android:color="@color/colorAccent"
         />
 </shape>

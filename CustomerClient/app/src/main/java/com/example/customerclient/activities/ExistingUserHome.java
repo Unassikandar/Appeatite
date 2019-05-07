@@ -67,6 +67,7 @@ public class ExistingUserHome extends AppCompatActivity implements NavigationVie
         tv.setTextSize(40);
         tv.setAllCaps(true);
         tv.setTextColor(Color.BLACK);
+        //Toast.makeText(getApplicationContext(), temp, Toast.LENGTH_LONG).show();
 
         //Header of navigation drawer
         TextView tv3 = (TextView) navigationView.getHeaderView(0).findViewById(R.id.txtUser);
@@ -104,6 +105,10 @@ public class ExistingUserHome extends AppCompatActivity implements NavigationVie
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_scan:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, QRScanner.class);
+                startActivity(intent);
         }
         return true;
     }

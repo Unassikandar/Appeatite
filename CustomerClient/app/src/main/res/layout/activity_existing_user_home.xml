@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorWhite"
+    android:background="@color/colorBackground"
     tools:context=".activities.ExistingUserHome">
 
     <LinearLayout
@@ -18,7 +18,7 @@
             android:id="@+id/toolbar_welcome"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorAccent"
+            android:background="@drawable/logo_bar"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,12 +37,13 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="232dp"
-                android:background="@drawable/button_background"
+                android:background="@drawable/button_background2"
                 android:text="Scan"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/colorBlack"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
 
             <TextView
@@ -53,26 +54,13 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_marginBottom="60dp"
+                android:layout_marginBottom="56dp"
+                android:background="@drawable/back"
+                android:gravity="center"
                 app:layout_constraintBottom_toTopOf="@+id/btnScan"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:gravity="center"/>
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="129dp"
-                android:layout_height="25dp"
-                android:layout_marginStart="228dp"
-                android:layout_marginLeft="228dp"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/logo" />
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

@@ -43,10 +43,18 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         findViewById(R.id.actSignup_button_login).setOnClickListener(this);
 
         progressBar = findViewById(R.id.progress_bar);
-
-
+        progressBar.setVisibility(View.GONE);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            startActivity(new Intent(this, ExistingUserHome.class));
+        }
+    }
+
 
     private void registerUser(){
         String username = editTextUsername.getText().toString().trim();

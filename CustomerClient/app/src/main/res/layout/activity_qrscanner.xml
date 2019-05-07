@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
+    android:background="@color/colorBackground"
     android:layout_height="match_parent"
     tools:context="com.varvet.barcodereadersample.QRScanner">
 
@@ -25,9 +25,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/result_textview"
-        android:background="@color/colorAccent"
+        android:background="@drawable/button_background2"
         android:text="@string/scan_barcode_button"
-        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.7" />
@@ -37,11 +36,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/result_textview"
+        android:background="@drawable/button_background2"
         android:text="Back To Main Page"
-        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="@id/scan_barcode_button"
         app:layout_constraintVertical_bias="0.7" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_bar"
+        tools:layout_editor_absoluteX="0dp" />
 
 
 </android.support.constraint.ConstraintLayout>

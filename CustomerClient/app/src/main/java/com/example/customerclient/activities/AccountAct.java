@@ -3,6 +3,7 @@ package com.example.customerclient.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -101,11 +102,12 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
         String temp2 = currentUser.getEmail();
         tv2.append(temp2);
 
-        //Get username and display welcome user
+        //Get username and display user name
         TextView tv = findViewById(R.id.welcomeText);
         String temp = currentUser.getEmail();
         temp = temp.substring(0, temp.indexOf("@"));
-        tv.append(temp + "s account" );
+        tv.append(temp + "'s account" );
+        tv.setAllCaps(true);
 
         //Add profile picture
         //If dp already exists get it and upload
@@ -208,6 +210,8 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                 }, 1000);
             }
         });
+
+
     }
 
     @Override
@@ -228,6 +232,8 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                         displayPic.setImageBitmap(bitmap);
+                        displayPic.setRotation(90);
+                        uploadButton.setVisibility(View.GONE);
                     }
                     catch (IOException e)
                     {
@@ -235,7 +241,8 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                     }
                 }
             });
-        }
+
+            }
     }
 
     @Override

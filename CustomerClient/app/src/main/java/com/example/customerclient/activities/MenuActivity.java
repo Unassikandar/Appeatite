@@ -80,22 +80,12 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         String temp2 = currentUser.getEmail();
         tv2.append(temp2);
         /*==========================================*/
-
-
         /* Set up fragments for menu */
         pagerAdapter = new PagerAdapter(getSupportFragmentManager());
         viewPager = findViewById(R.id.pager);
         viewPager.setAdapter(pagerAdapter);
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
-
-//
-//        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-//                getApplicationContext(),
-//                android.R.layout.simple_list_item_1,
-//                menuHeaders
-//        );
-//        listView.setAdapter(listViewAdapter);
 
     }
 
