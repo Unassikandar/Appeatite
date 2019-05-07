@@ -110,6 +110,10 @@ public class ExistingUserHome extends AppCompatActivity implements NavigationVie
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.nav_basket:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, BasketActivity.class);
+                startActivity(intent);
         }
         return true;
     }

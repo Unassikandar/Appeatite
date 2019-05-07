@@ -17,6 +17,8 @@ import com.google.firebase.auth.GetTokenResult;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -36,6 +38,7 @@ public class CloudFunctions {
     private String headingId;
     private MenuItems menuItems;
     private Basket basket;
+    JSONArray jsonArray;
 
     private ArrayList<MenuItems> tempListMenu;
     private HashMap<String, ArrayList<MenuItemData>> map;
@@ -216,7 +219,7 @@ public class CloudFunctions {
                         public void onComplete(@NonNull Task<GetTokenResult> task) {
                             userIdToken = task.getResult().getToken();
                             Log.i("basket", userIdToken);
-                            serverApi.addOrder(basket, "Bearer " + userIdToken).enqueue(new Callback<Void>() {
+                            serverApi.addOrder(restId, jsonArray, "Bearer " + userIdToken).enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     if(response.isSuccessful()){
@@ -225,7 +228,6 @@ public class CloudFunctions {
                                         Log.i("Basket", "post failed");
                                     }
                                 }
-
                                 @Override
                                 public void onFailure(Call<Void> call, Throwable t) {
                                     Log.i("basket", "response failure" + t.getMessage());
@@ -244,5 +246,13 @@ public class CloudFunctions {
 
     public void setBasket(Basket basket) {
         this.basket = basket;
+    }
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
+    }
+
+    public void setJsonArray(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
     }
 }

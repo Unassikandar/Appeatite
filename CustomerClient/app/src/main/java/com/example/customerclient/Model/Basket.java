@@ -15,10 +15,6 @@ public class Basket {
         return items;
     }
 
-    public void setItems(ArrayList<BasketItem> items) {
-        this.items = items;
-    }
-
     public void addItem(BasketItem item){
         int index = findItemIndex(item.getMenuItemId());
         if(index == -1){

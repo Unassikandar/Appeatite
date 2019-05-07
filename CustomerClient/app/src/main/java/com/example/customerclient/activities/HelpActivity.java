@@ -98,6 +98,10 @@ public class HelpActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, QRScanner.class);
                 startActivity(intent);
+            case R.id.nav_basket:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, BasketActivity.class);
+                startActivity(intent);
         }
         return true;
     }

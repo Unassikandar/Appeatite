@@ -46,29 +46,29 @@ public class MenuListAdapter extends ArrayAdapter<MenuItemData> {
         TextView menuItemName = convertView.findViewById(R.id.test_item_name);
         TextView menuItemIngredients = convertView.findViewById(R.id.test_item_ingredients);
         TextView menuItemPrice = convertView.findViewById(R.id.test_item_price);
+        TextView menuItemCalories = convertView.findViewById(R.id.test_item_calories);
+        TextView menuItemEwt = convertView.findViewById(R.id.test_item_ewt);
         // Populate the data into the template view using the data object
         menuItemName.setText(menuItem.getName());
         menuItemIngredients.setText(menuItem.getIngredients());
+        //set price
         String price = menuItem.getPrice() + " TL";
         menuItemPrice.setText(price);
+        //set calories
+        String calories = "Calorie count: " + menuItem.getCalories();
+        menuItemCalories.setText(calories);
+        //set ewt
+        String ewt = "Expected waiting time: " + menuItem.getExpectedWaitTime();
+        menuItemEwt.setText(ewt);
         // Handle button listeners
         Button addItemBtn = convertView.findViewById(R.id.test_addbtn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Basket basket = CloudFunctions.getInstance().getBasket();
-                basket.addItem(new BasketItem(menuItem.getMenuItemId()));
+                basket.addItem(new BasketItem(menuItem.getMenuItemId(), menuItem.getName(), menuItem.getPrice()));
                 CloudFunctions.getInstance().setBasket(basket);
                 Log.i("Add item", basket.toString());
-            }
-        });
-        Button detailsButton = convertView.findViewById(R.id.test_detailsbtn);
-        detailsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ChildFragment frag = ChildFragment.init(menuItem.getName(), menuItem.getCalories(), menuItem.getExpectedWaitTime(), menuItem.getIngredients(), menuItem.getDiscountPercent(), menuItem.getPrice());
-                FragmentTransaction t = childFm.beginTransaction();
-                t.add(R.id.child_frag_layout, frag).commit();
             }
         });
         // Return the completed view to render on screen

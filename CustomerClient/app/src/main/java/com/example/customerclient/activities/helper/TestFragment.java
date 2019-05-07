@@ -57,8 +57,6 @@ public class TestFragment extends Fragment {
         ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData(), this.getChildFragmentManager());
         listView.setAdapter(listAdapter);
 
-        RelativeLayout relativeLayout = layoutView.findViewById(R.id.child_frag_layout);
-//        relativeLayout.setVisibility(View.INVISIBLE);
         return layoutView;
     }
 

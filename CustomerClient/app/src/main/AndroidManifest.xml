@@ -21,9 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.HelpActivity"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
+        <activity android:name=".activities.BasketActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.HelpActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activities.ExistingUserHome"
             android:theme="@style/AppTheme.NoActionBar" />
