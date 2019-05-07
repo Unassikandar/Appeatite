@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.customerclient.Model.Basket;
+import com.example.customerclient.Model.BasketItem;
 import com.example.customerclient.Model.MenuItemData;
 import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
@@ -89,13 +91,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
-//
-//        ArrayAdapter<String> listViewAdapter = new ArrayAdapter<String>(
-//                getApplicationContext(),
-//                android.R.layout.simple_list_item_1,
-//                menuHeaders
-//        );
-//        listView.setAdapter(listViewAdapter);
+
+        /* Testing Post */
+        Basket basket = CloudFunctions.getInstance().getBasket();
+        BasketItem basketItem = new BasketItem("itemId");
+        basket.addItem(basketItem);
+        basket.setRestaurantId(CloudFunctions.getInstance().getRestId());
+        CloudFunctions.getInstance().setBasket(basket);
+        CloudFunctions.getInstance().postBasket();
 
     }
 

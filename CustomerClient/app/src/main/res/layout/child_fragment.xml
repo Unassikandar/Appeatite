@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/child_frag_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="30dp"
+    android:layout_marginTop="60dp">
+
+    <ImageView
+        android:id="@+id/child_item_pic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/food_placeholder"/>
+
+    <TextView
+        android:id="@+id/child_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/child_item_pic"
+        android:layout_marginTop="20dp"
+        android:textSize="30sp"
+        android:text="Name"/>
+
+    <TextView
+        android:id="@+id/child_item_calories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/child_item_ingredients"
+        android:layout_marginTop="5dp"
+        android:text="Calories: 123"/>
+
+    <TextView
+        android:id="@+id/child_item_ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/child_item_name"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:text="Ingredients"/>
+
+    <TextView
+        android:id="@+id/child_item_expectedWaitTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/child_item_calories"
+        android:layout_marginTop="5dp"
+        android:text="Expected Wait Time"/>
+
+    <TextView
+        android:id="@+id/child_item_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/child_item_discount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/child_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cross_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.customerclient.Model.Basket;
 import com.example.customerclient.Model.Headings;
 import com.example.customerclient.Model.MenuItemData;
 import com.example.customerclient.Model.MenuItems;
@@ -34,6 +35,7 @@ public class CloudFunctions {
     private Headings headings;
     private String headingId;
     private MenuItems menuItems;
+    private Basket basket;
 
     private ArrayList<MenuItems> tempListMenu;
     private HashMap<String, ArrayList<MenuItemData>> map;
@@ -45,6 +47,7 @@ public class CloudFunctions {
         restId = null;
         userIdToken = null;
         tempListMenu = new ArrayList<>();
+        basket = new Basket();
 
         Gson gson = new GsonBuilder().serializeNulls().create();
 
@@ -205,4 +208,41 @@ public class CloudFunctions {
         return tempListMenu;
     }
 
+    public void postBasket(){
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            FirebaseAuth.getInstance().getCurrentUser().getIdToken(true)
+                    .addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<GetTokenResult> task) {
+                            userIdToken = task.getResult().getToken();
+                            Log.i("basket", userIdToken);
+                            serverApi.addOrder(basket, "Bearer " + userIdToken).enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if(response.isSuccessful()){
+                                        Log.i("basket", "posted");
+                                    } else {
+                                        Log.i("Basket", "post failed");
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
+                                    Log.i("basket", "response failure" + t.getMessage());
+                                }
+                            });
+                        }
+                    });
+        } else {
+            Log.d(TAG, "User is null");
+        }
+    }
+
+    public Basket getBasket() {
+        return basket;
+    }
+
+    public void setBasket(Basket basket) {
+        this.basket = basket;
+    }
 }

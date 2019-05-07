@@ -9,7 +9,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:text="Add Item" />
+
+    <Button
+        android:id="@+id/test_detailsbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Details"
+        android:layout_below="@+id/test_addbtn"/>
 
     <ImageView
         android:id="@+id/imageView1"
@@ -34,7 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/test_item_name"
         android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/imageView1"
+        android:layout_toEndOf="@+id/imageView1"
         tools:text="Ingredients" />
 
     <TextView
@@ -43,7 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/test_addbtn"
         android:layout_marginRight="3dp"
-        android:textSize="20sp"/>
+        android:layout_marginEnd="3dp"
+        android:textSize="20sp"
+        android:text="price"/>
 
 
 </RelativeLayout>
