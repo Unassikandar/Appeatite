@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.customerclient.Model.Basket;
@@ -95,29 +96,29 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
 
         /* Testing Post */
-        Basket basket = CloudFunctions.getInstance().getBasket();
-        MenuItemData menuItemData = CloudFunctions.getInstance().getMenuItems().getData().get(0);
-        BasketItem basketItem = new BasketItem(menuItemData.getMenuItemId(), menuItemData.getName(), menuItemData.getPrice());
-        basket.addItem(basketItem);
-        basket.setRestaurantId(CloudFunctions.getInstance().getRestId());
-        CloudFunctions.getInstance().setBasket(basket);
-
-        JSONObject jsonObject = null;
-        JSONArray jsonArray = new JSONArray();
-        for(int i=0; i<basket.getItems().size(); i++){
-            jsonObject = new JSONObject();
-            try{
-                jsonObject.put("menuItemId", basket.getItems().get(i).getMenuItemId());
-                jsonObject.put("quantity", basket.getItems().get(i).getQuantity());
-                jsonArray.put(jsonObject);
-            } catch (JSONException e){
-                e.printStackTrace();
-            }
-        }
-        Log.i("json", jsonArray.toString());
-        CloudFunctions.getInstance().setJsonArray(jsonArray);
-
-        CloudFunctions.getInstance().postBasket();
+//        Basket basket = CloudFunctions.getInstance().getBasket();
+//        MenuItemData menuItemData = CloudFunctions.getInstance().getMenuItems().getData().get(0);
+//        BasketItem basketItem = new BasketItem(menuItemData.getMenuItemId(), menuItemData.getName(), menuItemData.getPrice());
+//        basket.addItem(basketItem);
+//        basket.setRestaurantId(CloudFunctions.getInstance().getRestId());
+//        CloudFunctions.getInstance().setBasket(basket);
+//
+//        JSONObject jsonObject = null;
+//        JSONArray jsonArray = new JSONArray();
+//        for(int i=0; i<basket.getItems().size(); i++){
+//            jsonObject = new JSONObject();
+//            try{
+//                jsonObject.put("menuItemId", basket.getItems().get(i).getMenuItemId());
+//                jsonObject.put("quantity", basket.getItems().get(i).getQuantity());
+//                jsonArray.put(jsonObject);
+//            } catch (JSONException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        Log.i("json", jsonArray.toString());
+//        CloudFunctions.getInstance().setJsonArray(jsonArray);
+//
+//        CloudFunctions.getInstance().postBasket();
 
     }
 
@@ -129,7 +130,14 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
-                break;
+                if(CloudFunctions.getInstance().getTableId() != null){
+                    intent = new Intent(this, MenuActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    Toast.makeText(this, "Please scan suitable QRcode first", Toast.LENGTH_LONG).show();
+                    break;
+                }
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, AccountAct.class);

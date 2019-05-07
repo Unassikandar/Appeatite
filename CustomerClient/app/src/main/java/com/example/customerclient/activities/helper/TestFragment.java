@@ -1,5 +1,6 @@
 package com.example.customerclient.activities.helper;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,10 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.customerclient.Model.HeadingData;
 import com.example.customerclient.Model.Headings;
@@ -20,6 +23,7 @@ import com.example.customerclient.Model.MenuItemData;
 import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
+import com.example.customerclient.activities.BasketActivity;
 
 import java.util.ArrayList;
 
@@ -57,6 +61,18 @@ public class TestFragment extends Fragment {
         ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData(), this.getChildFragmentManager());
         listView.setAdapter(listAdapter);
 
+        Button basketBtn = layoutView.findViewById(R.id.test_button);
+        basketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(CloudFunctions.getInstance().getBasket().getItems().size() < 1){
+                    Toast.makeText(getContext(), "Basket is empty", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getActivity(), BasketActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         return layoutView;
     }
 

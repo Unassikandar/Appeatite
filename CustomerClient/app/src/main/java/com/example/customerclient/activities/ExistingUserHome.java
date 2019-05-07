@@ -114,6 +114,8 @@ public class ExistingUserHome extends AppCompatActivity implements NavigationVie
             case R.id.nav_scan:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, QRScanner.class);
+                startActivity(intent);
+                break;
             case R.id.nav_basket:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, BasketActivity.class);

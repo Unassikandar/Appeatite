@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.customerclient.Model.Basket;
 import com.example.customerclient.R;
@@ -69,7 +70,14 @@ public class BasketActivity extends AppCompatActivity implements NavigationView.
         switch (menuItem.getItemId()){
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
-                break;
+                if(CloudFunctions.getInstance().getTableId() != null){
+                    intent = new Intent(this, MenuActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    Toast.makeText(this, "Please scan suitable QRcode first", Toast.LENGTH_LONG).show();
+                    break;
+                }
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, AccountAct.class);

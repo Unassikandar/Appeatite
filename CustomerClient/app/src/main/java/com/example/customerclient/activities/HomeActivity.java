@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.customerclient.R;
 import com.example.customerclient.ServerComms.CloudFunctions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -46,6 +47,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         /*---------------------------------------*/
 
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+            Log.d("usertag", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        else
+            Log.d("usertag", "User null");
         // Gets restaurantId and Headings
         new FetchingTask().execute();
     }

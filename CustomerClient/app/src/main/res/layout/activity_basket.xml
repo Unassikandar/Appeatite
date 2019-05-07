@@ -6,9 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="@color/colorWhite"
-    tools:context=".activities.BasketActivity"
-    tools:openDrawer="">
+    android:background="@color/colorBackground"
+    tools:context=".activities.BasketActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +18,7 @@
             android:id="@+id/toolbar_basket"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/logo_bar"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
@@ -54,8 +53,6 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentBottom="true" />
-
-
         </RelativeLayout>
 
     </LinearLayout>

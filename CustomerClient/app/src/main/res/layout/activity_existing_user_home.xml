@@ -57,6 +57,7 @@
                 android:layout_marginBottom="56dp"
                 android:background="@drawable/back"
                 android:gravity="center"
+                app:fontFamily="@font/playfair_display_sc"
                 app:layout_constraintBottom_toTopOf="@+id/btnScan"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"

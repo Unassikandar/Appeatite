@@ -11,14 +11,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true">
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/test_button">
     </ListView>
 
 
-    <TextView
-        android:id="@+id/test_text"
+    <Button
+        android:id="@+id/test_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/menu_item_listview"/>
+        android:layout_alignParentBottom="true"
+        android:text="View Basket"
+        android:textSize="12sp"/>
 
 </RelativeLayout>

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -241,7 +242,6 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                     }
                 }
             });
-
             }
     }
 
@@ -251,9 +251,14 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
         switch (menuItem.getItemId()){
             case R.id.nav_menu:
                 drawer.closeDrawer(GravityCompat.START);
-                intent = new Intent(this, MenuActivity.class);
-                startActivity(intent);
-                break;
+                if(CloudFunctions.getInstance().getTableId() != null){
+                    intent = new Intent(this, MenuActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    Toast.makeText(this, "Please scan suitable QRcode first", Toast.LENGTH_LONG).show();
+                    break;
+                }
             case R.id.nav_useraccount:
                 drawer.closeDrawer(GravityCompat.START);
                 break;
@@ -272,10 +277,12 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, QRScanner.class);
                 startActivity(intent);
+                break;
             case R.id.nav_basket:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, BasketActivity.class);
                 startActivity(intent);
+                break;
         }
         return true;
     }
