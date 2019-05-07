@@ -24,6 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 
+import com.example.customerclient.Model.Basket;
+import com.example.customerclient.Model.BasketItem;
 import com.example.customerclient.Model.MenuItemData;
 import com.example.customerclient.Model.MenuItems;
 import com.example.customerclient.R;
@@ -32,6 +34,10 @@ import com.example.customerclient.activities.helper.TestFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.varvet.barcodereadersample.QRScanner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -87,6 +93,32 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         tabLayout = findViewById(R.id.tablayout);
         tabLayout.setupWithViewPager(viewPager);
 
+
+        /* Testing Post */
+        Basket basket = CloudFunctions.getInstance().getBasket();
+        MenuItemData menuItemData = CloudFunctions.getInstance().getMenuItems().getData().get(0);
+        BasketItem basketItem = new BasketItem(menuItemData.getMenuItemId(), menuItemData.getName(), menuItemData.getPrice());
+        basket.addItem(basketItem);
+        basket.setRestaurantId(CloudFunctions.getInstance().getRestId());
+        CloudFunctions.getInstance().setBasket(basket);
+
+        JSONObject jsonObject = null;
+        JSONArray jsonArray = new JSONArray();
+        for(int i=0; i<basket.getItems().size(); i++){
+            jsonObject = new JSONObject();
+            try{
+                jsonObject.put("menuItemId", basket.getItems().get(i).getMenuItemId());
+                jsonObject.put("quantity", basket.getItems().get(i).getQuantity());
+                jsonArray.put(jsonObject);
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+        Log.i("json", jsonArray.toString());
+        CloudFunctions.getInstance().setJsonArray(jsonArray);
+
+        CloudFunctions.getInstance().postBasket();
+
     }
 
 
@@ -117,6 +149,10 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_scan:
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, QRScanner.class);
+                startActivity(intent);
+            case R.id.nav_basket:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, BasketActivity.class);
                 startActivity(intent);
         }
         return true;

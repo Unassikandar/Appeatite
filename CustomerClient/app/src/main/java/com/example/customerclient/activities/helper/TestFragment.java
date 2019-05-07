@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.customerclient.Model.HeadingData;
@@ -53,11 +54,8 @@ public class TestFragment extends Fragment {
         View layoutView = inflater.inflate(R.layout.fragment_list, container, false);
 
         listView = layoutView.findViewById(R.id.menu_item_listview);
-        ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData());
+        ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData(), this.getChildFragmentManager());
         listView.setAdapter(listAdapter);
-
-        TextView tv = layoutView.findViewById(R.id.test_text);
-        tv.setText("this is frag: " + fragVal);
 
         return layoutView;
     }
@@ -65,7 +63,7 @@ public class TestFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData());
+        ListAdapter listAdapter = new MenuListAdapter(getActivity(), menuItems.get(fragVal).getData(), this.getChildFragmentManager());
         listView.setAdapter(listAdapter);
 
     }

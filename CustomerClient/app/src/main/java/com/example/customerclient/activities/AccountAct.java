@@ -272,6 +272,10 @@ public class AccountAct extends AppCompatActivity implements NavigationView.OnNa
                 drawer.closeDrawer(GravityCompat.START);
                 intent = new Intent(this, QRScanner.class);
                 startActivity(intent);
+            case R.id.nav_basket:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, BasketActivity.class);
+                startActivity(intent);
         }
         return true;
     }

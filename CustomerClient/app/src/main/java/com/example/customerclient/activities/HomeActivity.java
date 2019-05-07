@@ -1,5 +1,6 @@
 package com.example.customerclient.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private TextView textView;
     private static String tableId, restId;
+    private ProgressDialog mProgress;
 
 
 
@@ -32,7 +34,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         textView = findViewById(R.id.rest_name_home);
-
+        mProgress = new ProgressDialog(this);
         /*---------NAVIGATION DRAWER ------------*/
         Toolbar toolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
@@ -64,6 +66,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, AccountAct.class);
                 startActivity(intent);
                 break;
+//            case R.id.nav_settings:
+//                drawer.closeDrawer(GravityCompat.START);
+//                intent = new Intent(this, SettingsActivity.class);
+//                startActivity(intent);
+//                break;
+            case R.id.nav_basket:
+                drawer.closeDrawer(GravityCompat.START);
+                intent = new Intent(this, BasketActivity.class);
+                startActivity(intent);
         }
         return true;
     }
@@ -79,6 +90,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     // USING TO FETCH DATA FROM BACK END AND TO INITIALIZE MODELS
     private class FetchingTask extends AsyncTask<Void, Void, Void>
     {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mProgress.setMessage("Fetching data...");
+            mProgress.show();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             CloudFunctions.getInstance().initializeRestId();
@@ -103,6 +121,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 //            while(CloudFunctions.getInstance().getTempListMenu().size() != CloudFunctions.getInstance().getHeadings().getData().size()){}
             Log.d("Fetching tempList", CloudFunctions.getInstance().getTempListMenu().toString());
             textView.setText(restId);
+            mProgress.hide();
         }
     }
 
