@@ -7,6 +7,7 @@ public class Restaurant {
     //ATTRIBUTES
     private String status;
     private String restaurantId;
+    private String restaurantName;
 
     //GETTERS AND SETTERS
     public String getStatus() {
@@ -25,11 +26,20 @@ public class Restaurant {
         this.restaurantId = restaurantId;
     }
 
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
-                "status=" + status +
+                "status='" + status + '\'' +
                 ", restaurantId='" + restaurantId + '\'' +
+                ", restaurantName='" + restaurantName + '\'' +
                 '}';
     }
 }

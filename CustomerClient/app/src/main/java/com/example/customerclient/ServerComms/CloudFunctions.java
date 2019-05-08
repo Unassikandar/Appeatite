@@ -31,7 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class CloudFunctions {
 
     private final String TAG = "Debugging CF";
-    private String tableId, restId;
+    private String tableId, restId, restaurantName;
     private ServerApi serverApi;
     private String userIdToken;
     private Headings headings;
@@ -86,6 +86,7 @@ public class CloudFunctions {
                                             return;
                                         }
                                         restId = response.body().getRestaurantId();
+                                        restaurantName = response.body().getRestaurantName();
                                         //Log.d("restId=", restId);
                                     }
 
@@ -254,5 +255,13 @@ public class CloudFunctions {
 
     public void setJsonArray(JSONArray jsonArray) {
         this.jsonArray = jsonArray;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

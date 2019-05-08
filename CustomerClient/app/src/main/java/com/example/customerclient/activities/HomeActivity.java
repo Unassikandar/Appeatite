@@ -31,7 +31,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private DrawerLayout drawer;
     //private TextView textView;
-    private static String tableId, restId;
+    private static String tableId, restId, restaurantName;
     private ProgressDialog mProgress;
 
 
@@ -74,6 +74,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         findViewById(R.id.textView3).setVisibility(View.INVISIBLE);
         findViewById(R.id.gifImageView2).setVisibility(View.INVISIBLE);
         findViewById(R.id.textView5).setVisibility(View.INVISIBLE);
+        findViewById(R.id.restaurantNameTV).setVisibility(View.INVISIBLE);
 
 
         if(FirebaseAuth.getInstance().getCurrentUser()!=null)
@@ -155,6 +156,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             while(restId == null){
                 restId = CloudFunctions.getInstance().getRestId();
             }
+            restaurantName = CloudFunctions.getInstance().getRestaurantName();
             tableId = CloudFunctions.getInstance().getTableId();
             CloudFunctions.getInstance().initializeHeadings();
             while(CloudFunctions.getInstance().getHeadings() == null){
@@ -176,10 +178,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             mProgress.hide();
 
             //RESHOW ACTIVITY GUI
-            findViewById(R.id.textView3).setVisibility(View.VISIBLE);
+//            TextView table = findViewById(R.id.textView3);
+//            table.setText("Your table: " + tab);
             findViewById(R.id.gifImageView2).setVisibility(View.VISIBLE);
             findViewById(R.id.textView5).setVisibility(View.VISIBLE);
-
+            TextView restName = findViewById(R.id.restaurantNameTV);
+            restName.setText("Welcome to " + restaurantName);
+            restName.setVisibility(View.VISIBLE);
 
             Animation animation= AnimationUtils.loadAnimation(HomeActivity.this, R.anim.sample_anim);
             findViewById(R.id.textView5).setAnimation(animation);
