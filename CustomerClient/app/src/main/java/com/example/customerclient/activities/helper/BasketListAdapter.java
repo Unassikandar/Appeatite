@@ -54,7 +54,6 @@ public class BasketListAdapter extends ArrayAdapter<BasketItem> {
                 basket.removeItem(bItem.getMenuItemId());
                 CloudFunctions.getInstance().setBasket(basket);
 //                Log.i("removeBasket", "X");
-//                items.remove(position-1);
                 notifyDataSetChanged();
             }
         });

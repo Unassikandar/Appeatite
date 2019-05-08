@@ -21,8 +21,9 @@
         android:textSize="20sp"
         android:layout_toRightOf="@id/basket_row_quantity"
         android:layout_toEndOf="@id/basket_row_quantity"
+        android:layout_toLeftOf="@+id/basket_row_price"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_centerVertical="true"
         />
 

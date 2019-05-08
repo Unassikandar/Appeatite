@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,11 +26,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.varvet.barcodereadersample.QRScanner;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class BasketActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
     private FirebaseAuth mAuth;
     private Basket mBasket;
+    ListAdapter listAdapter;
     ListView listView;
 
     @Override
@@ -58,9 +66,45 @@ public class BasketActivity extends AppCompatActivity implements NavigationView.
         tv2.append(temp2);
         /*==========================================*/
 
+        /* Make Basket List */
         listView = findViewById(R.id.basket_listview);
-        ListAdapter listAdapter = new BasketListAdapter(this, CloudFunctions.getInstance().getBasket().getItems());
+        listAdapter = new BasketListAdapter(this, CloudFunctions.getInstance().getBasket().getItems());
         listView.setAdapter(listAdapter);
+
+        /* Post basket Button */
+        Button postButton = findViewById(R.id.basket_postOrderBtn);
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Basket basket = CloudFunctions.getInstance().getBasket();
+                basket.setRestaurantId(CloudFunctions.getInstance().getRestId());
+                CloudFunctions.getInstance().setBasket(basket);
+
+                JSONObject jsonObject = null;
+                JSONArray jsonArray = new JSONArray();
+                for(int i=0; i<basket.getItems().size(); i++){
+                    jsonObject = new JSONObject();
+                    try{
+                        jsonObject.put("menuItemId", basket.getItems().get(i).getMenuItemId());
+                        jsonObject.put("menuItemName", basket.getItems().get(i).getName());
+                        jsonObject.put("quantity", basket.getItems().get(i).getQuantity());
+                        jsonArray.put(jsonObject);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+                Log.i("json", jsonArray.toString());
+                CloudFunctions.getInstance().setJsonArray(jsonArray);
+                CloudFunctions.getInstance().postBasket();
+                basket.clearBasket();
+                Log.i("jsonX", basket.toString());
+                CloudFunctions.getInstance().setBasket(basket);
+                ((BasketListAdapter) listView.getAdapter()).notifyDataSetChanged();
+                listAdapter = new BasketListAdapter(BasketActivity.this, CloudFunctions.getInstance().getBasket().getItems());
+                listView.setAdapter(listAdapter);
+                Log.i("jsonX", String.valueOf(listAdapter.getCount()));
+            }
+        });
 
     }
 

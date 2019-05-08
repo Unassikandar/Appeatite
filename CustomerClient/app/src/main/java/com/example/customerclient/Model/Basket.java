@@ -45,6 +45,10 @@ public class Basket {
         return -1;
     }
 
+    public void clearBasket(){
+        this.items = new ArrayList<>();
+    }
+
     @Override
     public String toString() {
         return "Basket{" +

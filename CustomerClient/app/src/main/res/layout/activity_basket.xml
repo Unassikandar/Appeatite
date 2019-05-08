@@ -34,12 +34,43 @@
                 android:text="My Basket"
                 android:textSize="35sp"/>
 
+            <RelativeLayout
+                android:id="@+id/relative_l"
+                android:layout_below="@+id/basket_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccent"
+                    android:text="Quantity"/>
+                <TextView
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Item Name"
+                    android:layout_toRightOf="@+id/tv1"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/colorAccent"/>
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="80dp"
+                    android:textColor="@color/colorAccent"/>
+
+            </RelativeLayout>
+
             <ListView
                 android:id="@+id/basket_listview"
-                android:layout_below="@id/basket_text"
+                android:layout_below="@id/relative_l"
                 android:layout_above="@+id/basket_postOrderBtn"
                 android:layout_marginBottom="5dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </ListView>

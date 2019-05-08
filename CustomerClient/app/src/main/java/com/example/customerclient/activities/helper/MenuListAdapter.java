@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.customerclient.Model.Basket;
 import com.example.customerclient.Model.BasketItem;
@@ -69,6 +70,7 @@ public class MenuListAdapter extends ArrayAdapter<MenuItemData> {
                 basket.addItem(new BasketItem(menuItem.getMenuItemId(), menuItem.getName(), menuItem.getPrice()));
                 CloudFunctions.getInstance().setBasket(basket);
                 Log.i("Add item", basket.toString());
+                Toast.makeText(getContext(), "Item added to basket", Toast.LENGTH_SHORT).show();
             }
         });
         // Return the completed view to render on screen
