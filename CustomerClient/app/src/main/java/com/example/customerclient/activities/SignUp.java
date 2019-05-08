@@ -1,12 +1,15 @@
 package com.example.customerclient.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -37,11 +40,21 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         editTextPassword = findViewById(R.id.actSignup_textfield_password);
 
         findViewById(R.id.actSignup_button_signup).setOnClickListener(this);
-        findViewById(R.id.actSignup_button_back).setOnClickListener(this);
+        findViewById(R.id.actSignup_button_login).setOnClickListener(this);
 
         progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.GONE);
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mAuth.getCurrentUser() != null){
+            startActivity(new Intent(this, ExistingUserHome.class));
+        }
+    }
+
 
     private void registerUser(){
         String username = editTextUsername.getText().toString().trim();
@@ -78,8 +91,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
              public void onComplete(@NonNull Task<AuthResult> task) {
                  progressBar.setVisibility(View.GONE);
                  if(task.isSuccessful()){
-                     Toast.makeText(getApplicationContext(),"user registeration successful.", Toast.LENGTH_LONG).show();
-                     Intent intent = new Intent(SignUp.this, MainActivity.class);
+                     Toast.makeText(getApplicationContext(),"User Registration Successful.", Toast.LENGTH_LONG).show();
+                     Intent intent = new Intent(SignUp.this, WelcomeActivity.class);
                      intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                      startActivity(intent);
                  }
@@ -103,7 +116,8 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
                 registerUser();
                 break;
 
-            case R.id.actSignup_button_back:
+            case R.id.actSignup_button_login:
+                mAuth.signOut();
                 startActivity(new Intent(this, MainActivity.class));
                 break;
         }

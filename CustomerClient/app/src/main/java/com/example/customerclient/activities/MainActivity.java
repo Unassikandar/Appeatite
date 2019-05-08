@@ -11,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.customerclient.R;
+import com.example.customerclient.ServerComms.CloudFunctions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -19,6 +20,7 @@ import com.varvet.barcodereadersample.QRScanner;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    CloudFunctions fncs;
     FirebaseAuth mAuth;
     EditText editTextUsername;
     EditText editTextPassword;
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         if(mAuth.getCurrentUser() != null){
-            startActivity(new Intent(this, QRScanner.class));
+            startActivity(new Intent(this, ExistingUserHome.class));
         }
     }
 
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(password.isEmpty()) {
-            editTextPassword.setError("password is required.");
+            editTextPassword.setError("Password is required.");
             editTextPassword.requestFocus();
             return;
         }
@@ -93,12 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Intent intent = new Intent(MainActivity.this, QRScanner.class);
+                    Intent intent = new Intent(MainActivity.this, ExistingUserHome.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });
