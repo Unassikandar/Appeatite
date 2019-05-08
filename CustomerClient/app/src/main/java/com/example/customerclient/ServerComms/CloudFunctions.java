@@ -219,7 +219,7 @@ public class CloudFunctions {
                         public void onComplete(@NonNull Task<GetTokenResult> task) {
                             userIdToken = task.getResult().getToken();
                             Log.i("basket", userIdToken);
-                            serverApi.addOrder(restId, jsonArray, "Bearer " + userIdToken).enqueue(new Callback<Void>() {
+                            serverApi.addOrder(restId, tableId, jsonArray, "Bearer " + userIdToken).enqueue(new Callback<Void>() {
                                 @Override
                                 public void onResponse(Call<Void> call, Response<Void> response) {
                                     if(response.isSuccessful()){

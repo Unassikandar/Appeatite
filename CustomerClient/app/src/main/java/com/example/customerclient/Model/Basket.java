@@ -24,6 +24,11 @@ public class Basket {
         }
     }
 
+    public void removeItem(String menuItemId){
+        int index = findItemIndex(menuItemId);
+        items.remove(index);
+    }
+
     public String getRestaurantId() {
         return restaurantId;
     }

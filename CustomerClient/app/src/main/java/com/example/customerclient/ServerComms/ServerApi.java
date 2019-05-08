@@ -45,7 +45,7 @@ public interface ServerApi {
 
     @FormUrlEncoded
     @POST("addOrder")
-    Call<Void> addOrder(@Field ("restaurantId") String restaurantId, @Field("basket") JSONArray basket,
+    Call<Void> addOrder(@Field ("restaurantId") String restaurantId, @Field("tableId") String tableId, @Field("basket") JSONArray basket,
                         @Header("Authorization") String userAuth);
 
 //    @POST("addOrder")

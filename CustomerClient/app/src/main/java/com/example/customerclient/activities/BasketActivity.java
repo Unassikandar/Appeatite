@@ -59,7 +59,7 @@ public class BasketActivity extends AppCompatActivity implements NavigationView.
         /*==========================================*/
 
         listView = findViewById(R.id.basket_listview);
-        ListAdapter listAdapter = new BasketListAdapter(this, CloudFunctions.getInstance().getBasket());
+        ListAdapter listAdapter = new BasketListAdapter(this, CloudFunctions.getInstance().getBasket().getItems());
         listView.setAdapter(listAdapter);
 
     }
