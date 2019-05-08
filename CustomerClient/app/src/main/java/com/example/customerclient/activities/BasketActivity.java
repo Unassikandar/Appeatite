@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -102,9 +103,12 @@ public class BasketActivity extends AppCompatActivity implements NavigationView.
                 ((BasketListAdapter) listView.getAdapter()).notifyDataSetChanged();
                 listAdapter = new BasketListAdapter(BasketActivity.this, CloudFunctions.getInstance().getBasket().getItems());
                 listView.setAdapter(listAdapter);
-                Log.i("jsonX", String.valueOf(listAdapter.getCount()));
+                //ALERT BOX
+                Toast.makeText(v.getContext(), "Order Submited", Toast.LENGTH_SHORT).show();
+
             }
         });
+
 
     }
 
